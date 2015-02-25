@@ -169,14 +169,15 @@ class Board extends JFrame implements ActionListener{
 			repaint();
 		}else if (e.getSource() == redTurn){
 			Game.currentPlayer = Piece.RED;
-			setTitle("Connect Four - Red's Turn");
+			setTitle("Connect Four - Red's Turn - Game in Progress");
 		}else if (e.getSource() == blueTurn){
 			Game.currentPlayer = Piece.BLUE;
-			setTitle("Connect Four - Blue's Turn");
+			setTitle("Connect Four - Blue's Turn - Game in Progress");
 		}else if (e.getSource() == endStateBtn){
 			endGame = true;
 			checkWin.check(brd, this);
 			displayMsg.displayEndState(this);
+			setTitle("Connect Four - Game Ended");
 		}
 	}
 }
