@@ -174,7 +174,7 @@ class Board extends JFrame implements ActionListener{
 			setTitle("Connect Four - Blue's Turn - Game in Progress");
 		}else if (e.getSource() == endStateBtn){
 			endGame = true;
-			checkWin.check(brd, this);
+			checkWin.checkState(brd, this);
 			displayMsg.displayEndState(this);
 			setTitle("Connect Four - Game Ended");
 		}

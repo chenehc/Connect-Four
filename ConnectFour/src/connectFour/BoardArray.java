@@ -19,14 +19,28 @@ public class BoardArray {
 		return (this.boardArray[row][col] == Piece.EMPTY);
 	}
 	
+	//checks whether the element at the index is empty
 	public boolean isRed(int row, int col){
 		return (this.boardArray[row][col] == Piece.RED);
 	}
 	
+	//checks if the element at the given index is empty
 	public boolean isBlue(int row, int col){
 		return (this.boardArray[row][col] == Piece.BLUE);
 	}
 	
+	public int getRow(){
+		return this.ROW;
+	}
+	
+	public int getCol(){
+		return this.COLUMN;
+	}
+	
+	//returns the piece at the given index
+	public Piece getPiece(int row, int col){
+		return this.boardArray[row][col];
+	}
 	//counts the number of red pieces on the board
 	public int countRed(){
 		int count = 0;
@@ -53,6 +67,17 @@ public class BoardArray {
 		if (row>0) {
            boardArray[--row][col] = Game.currentPlayer;
 		}
+	}
+	
+	//removes the player piece in a column
+	public void removePiece(int col){
+		int row;
+		for (row=0; row<ROW; row++)
+            if (!isEmpty(row, col)) break;
+		if (row>0) {
+           boardArray[row][col] = Piece.EMPTY;
+		}
+		Game.illegalMove = false;
 	}
 	
 	//resets the board, set all pieces to EMPTY

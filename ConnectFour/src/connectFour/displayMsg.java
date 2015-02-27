@@ -44,4 +44,10 @@ public class displayMsg extends JPanel{
 	public static void displayEndState(Component c){
 		JOptionPane.showMessageDialog(c, "Game Over, press 'New Game' to play again");
 	}
+	
+	//displays an error when making illegal moves
+	public static void displayIllegalMove(Component c){
+		JOptionPane.showMessageDialog(c, "Illegal Move, try again");
+		Game.illegalMove=true;
+	}
 }

@@ -6,7 +6,6 @@ public class ConnectFour{
 	public static void main(String args[]){
 		Board board = new Board();
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		board.pack();
 		board.setVisible(true);
 		board.setLocationRelativeTo(null);
 		board.setResizable(false);
