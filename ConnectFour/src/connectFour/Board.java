@@ -38,8 +38,6 @@ class Board extends JFrame implements ActionListener{
 	
 	//builds the board components, being panel, buttons
 	private void buildBoardGUI(){
-		JOptionPane.showMessageDialog(this, "Hover mouse over the top and bottom of the GUI for the buttons to show, we can't fix it" );
-		
 		topPanel = new JPanel();
 		bottomPanel = new JPanel();
 		leftPanel = new JPanel();
@@ -111,8 +109,9 @@ class Board extends JFrame implements ActionListener{
 	}
 	
 	public void paint(Graphics g){
-			//draw rectangular frame
-			g.setColor(Color.BLACK);
+		super.paint(g);
+		//draw rectangular frame
+		g.setColor(Color.BLACK);
         g.drawRect(145, 65, 100 * COLUMN + 30, 95 * ROW + 30);
         
         //draw player piece holder
