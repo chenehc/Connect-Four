@@ -28,11 +28,11 @@ public class Game {
 		if (randomInt < 50){
 			firstPlayer = Piece.BLUE;
 			currentPlayer = Piece.BLUE;
-			f.setTitle("Connect Four - Blue's Turn");
+			f.setTitle("Connect Four - Blue's Turn - Game in Progress");
 		}else{
 			firstPlayer = Piece.RED;
 			currentPlayer = Piece.RED;
-			f.setTitle("Connect Four - Red's Turn");
+			f.setTitle("Connect Four - Red's Turn - Game in Progress");
 		}
 	}
 	
