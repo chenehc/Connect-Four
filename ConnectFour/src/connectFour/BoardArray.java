@@ -67,6 +67,7 @@ public class BoardArray {
 		if (row>0) {
            boardArray[--row][col] = Game.currentPlayer;
 		}
+		Game.moveCount++;
 	}
 	
 	//removes the player piece in a column
@@ -78,6 +79,7 @@ public class BoardArray {
            boardArray[row][col] = Piece.EMPTY;
 		}
 		Game.illegalMove = false;
+		Game.moveCount--;
 	}
 	
 	//resets the board, set all pieces to EMPTY
