@@ -1,0 +1,15 @@
+package a3;
+/*
+ * You   are   asked   to   implement  a  BST   for   the   following   problem.   Please   refer   to  
+section   3.2   in   the textbook  for the  definition  of  a BST.
+Problem:
+Your  first  stop  is  in  Rochester,  NY  (77.6114⁰W,  43.1656⁰N).  Within 50 km,  you  want  to  
+have a  beef  sandwich  or  burger,  with  fries  and a cola, and your  friend  wants  a
+chicken sandwich  or  burger,  with  ginger  ale  and  fries,  at  the  best  value.  
+Return  the  results  stating  the  restaurant(s),  the address(es),  the  meal  choices  for  you
+and  your  friend  and  the  total  cost  of  mealsaccording  to  the  format  shown in  Section 4..
+ */
+
+public class BST {
+	
+}
