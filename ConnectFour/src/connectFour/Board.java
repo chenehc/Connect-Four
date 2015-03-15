@@ -22,7 +22,7 @@ class Board extends JFrame implements ActionListener{
 	private static final int COLUMN = 7;
 	private static final int ROW = 6;
 	private JButton col1, col2, col3, col4, col5, col6, col7;
-	private JButton newGameBtn, endStateBtn;
+	private JButton newGameBtn, endStateBtn, storeGameBtn, loadGameBtn;
 	private JPanel topPanel, bottomPanel, leftPanel;
 	private JButton blueTurn, redTurn;
 	private String space = "                ";
@@ -100,12 +100,23 @@ class Board extends JFrame implements ActionListener{
 		endStateBtn.addActionListener(this);
 		bottomPanel.add(endStateBtn);
 		
+		storeGameBtn = new JButton("Save");
+		storeGameBtn.addActionListener(this);
+		bottomPanel.add(storeGameBtn);
+		
+		loadGameBtn = new JButton("Load");
+		loadGameBtn.addActionListener(this);
+		bottomPanel.add(loadGameBtn);
 		brd = new BoardArray(ROW,COLUMN);
 		
 		add(bottomPanel, BorderLayout.SOUTH);
 		add(leftPanel,BorderLayout.WEST);
 		add(topPanel, BorderLayout.NORTH);
 		
+	}
+	
+	public void changeTitle(String s){
+		setTitle(s);
 	}
 	
 	public void paint(Graphics g){
@@ -177,6 +188,10 @@ class Board extends JFrame implements ActionListener{
 			checkWin.checkState(brd, this);
 			displayMsg.displayEndState(this);
 			setTitle("Connect Four - Game Ended");
+		}else if (e.getSource() == storeGameBtn){
+			
+		}else if (e.getSource() == loadGameBtn){
+			
 		}
 	}
 }

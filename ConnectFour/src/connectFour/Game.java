@@ -9,6 +9,7 @@ public class Game {
 	public static Piece currentPlayer;
 	public static Piece firstPlayer;
 	public static boolean illegalMove = false;
+	public static int moveCount = 0;
 	
 	//add player piece to the board
 	public static void addDisk(int col, Board c, BoardArray brd){
@@ -17,6 +18,13 @@ public class Game {
         brd.addPiece(col-1);    
         checkWin.checkMove(brd, c);
         if (illegalMove) brd.removePiece(col-1);
+        if (currentPlayer == Piece.BLUE){
+        	currentPlayer == Piece.RED;
+        	c.changeTitle("Connect Four - Red's Turn - Game in Progress");
+        }else{
+        	currentPlayer == Piece.BLUE;
+        	c.changeTitle("Connect Four - Blue's Turn - Game in Progress");
+        }
         c.repaint();
 	}
 	
