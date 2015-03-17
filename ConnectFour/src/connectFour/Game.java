@@ -14,7 +14,7 @@ public class Game {
 	//add player piece to the board
 	public static void addDisk(int col, Board c, BoardArray brd){
 		if (Board.endGame) return;
-		if (currentPlayer != Piece.BLUE && currentPlayer != Piece.RED) displayMsg.displayStartError(c);
+		if (currentPlayer != Piece.BLUE && currentPlayer != Piece.RED) displayStartError(c);
         brd.addPiece(col-1);    
         checkWin.checkMove(brd, c);
         if (illegalMove) brd.removePiece(col-1);
@@ -43,12 +43,26 @@ public class Game {
 			f.setTitle("Connect Four - Red's Turn - Game in Progress");
 		}
 	}
+
+	//displays the first player
+	private static void displayFirst(Board b){
+		if (Game.currentPlayer == Piece.RED){
+			JOptionPane.showMessageDialog(b, "Red goes first", "First Player", JOptionPane.PLAIN_MESSAGE);
+		}else{
+			JOptionPane.showMessageDialog(b, "Blue goes first", "First Player", JOptionPane.PLAIN_MESSAGE);
+		}
+	}
+
+	//displays an error when inserting into a game which has not started yet
+	private static void displayStartError(Board b){
+		JOptionPane.showMessageDialog(b, "Press 'New Game' to start the game");
+	}
 	
 	//starts the game
 	public static void start(Component c){
 		Board.endGame = false;
 		findFirst((JFrame) c);
-		displayMsg.displayFirst(c);
+		displayFirst(c);
 	}
 
 }

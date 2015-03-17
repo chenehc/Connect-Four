@@ -3,12 +3,47 @@ package connectFour;
 import java.awt.Component;
 
 public class checkWin {
+
+	//displays a game drawn message when the game is in draw state
+	private static void displayDraw(Board b){
+		JOptionPane.showMessageDialog(b, "Game Draw", "Game Drawn", JOptionPane.PLAIN_MESSAGE);
+		b.changeTitle("Connect Four - Game Drawn");
+	}
+
+	//displays a message with the winner
+	private void displayWinner(Piece player, Board b){
+		if (player == Piece.RED){
+			JOptionPane.showMessageDialog(b, "Red wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
+			b.changeTitle("Connect Four - Red Wins");
+		}else{
+			JOptionPane.showMessageDialog(b, "Blue wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
+			b.changeTitle("Connect Four - Blue Wins");
+		}
+		Board.endGame();
+	}
+
+	//displays error resulted from imbalance of player pieces
+	private static void displayError(Piece player, Board b){
+		if (player == Piece.RED){
+			JOptionPane.showMessageDialog(b, "Uneven amount of game pieces, too many red pieces", "Error.", JOptionPane.ERROR_MESSAGE);
+		}else{
+			JOptionPane.showMessageDialog(b, "Uneven amount of game pieces, too many blue pieces", "Error.", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	
+	// //displays an error when making illegal moves
+	// public static void displayIllegalMove(Board b){
+	// 	JOptionPane.showMessageDialog(b, "Illegal Move, try again");
+	// 	Game.illegalMove=true;
+	// }
+
 	//checks piece imbalance when the end game is pressed
 	public static void checkState(BoardArray brd, Board b){
 			if (Game.firstPlayer == Piece.BLUE && brd.countBlue() > brd.countRed() + 1){
-				displayMsg.displayError(Piece.BLUE, b);
+				displayError(Piece.BLUE, b);
 			}else if (Game.firstPlayer == Piece.RED && brd.countBlue() + 1 < brd.countRed()){
-				displayMsg.displayError(Piece.RED, b);
+				displayError(Piece.RED, b);
 			}
 	}
 	
@@ -22,7 +57,7 @@ public class checkWin {
 						&& current == brd.getPiece(row,col+1) 
 						&& current == brd.getPiece(row, col+2) 
 						&& current == brd.getPiece(row, col+3)) {
-					displayMsg.displayWinner(current, b);
+					displayWinner(current, b);
 				}
 			}
 		}
@@ -35,7 +70,7 @@ public class checkWin {
 						&& current == brd.getPiece(row+1,col) 
 						&& current == brd.getPiece(row+2,col) 
 						&& current == brd.getPiece(row+3,col)){
-					displayMsg.displayWinner(current, b);
+					displayWinner(current, b);
 				}
 			}
 		}
@@ -49,7 +84,7 @@ public class checkWin {
 						&& current == brd.getPiece(row+1,col+1) 
 						&& current == brd.getPiece(row+2,col+2)  
 						&& current == brd.getPiece(row+3,col+3) ){
-					displayMsg.displayWinner(current, b);
+					displayWinner(current, b);
 				}
 			}
 		}
@@ -62,13 +97,13 @@ public class checkWin {
 						&& current == brd.getPiece(row-1,col+1) 
 						&& current == brd.getPiece(row-2,col+2)  
 						&& current == brd.getPiece(row-3,col+3)){
-					displayMsg.displayWinner(current, b);
+					displayWinner(current, b);
 				}
 			}
 		}
 		
 		if (Game.moveCount == 42){
-			displayMsg.displayDraw(b);
+			displayDraw(b);
 		}
 	}
 }

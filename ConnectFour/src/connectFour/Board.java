@@ -157,6 +157,11 @@ class Board extends JFrame implements ActionListener{
 		endGame=true;
 	}
 
+	//this message plays when the user presses the 'End State' button
+	public static void displayEndState(Board b){
+		JOptionPane.showMessageDialog(b, "Game Over, press 'New Game' to play again");
+	}
+	
 	//sets action depending on which button is pressed
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == col1){
@@ -186,7 +191,7 @@ class Board extends JFrame implements ActionListener{
 		}else if (e.getSource() == endStateBtn){
 			endGame = true;
 			checkWin.checkState(brd, this);
-			displayMsg.displayEndState(this);
+			displayEndState(this);
 			setTitle("Connect Four - Game Ended");
 		}else if (e.getSource() == storeGameBtn){
 			
