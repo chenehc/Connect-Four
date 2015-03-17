@@ -2,6 +2,8 @@ package connectFour;
 
 import java.awt.Component;
 
+import javax.swing.JOptionPane;
+
 public class checkWin {
 
 	//displays a game drawn message when the game is in draw state
@@ -11,7 +13,7 @@ public class checkWin {
 	}
 
 	//displays a message with the winner
-	private void displayWinner(Piece player, Board b){
+	private static void displayWinner(Piece player, Board b){
 		if (player == Piece.RED){
 			JOptionPane.showMessageDialog(b, "Red wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
 			b.changeTitle("Connect Four - Red Wins");
