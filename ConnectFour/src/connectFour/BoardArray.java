@@ -41,6 +41,10 @@ public class BoardArray {
 	public Piece getPiece(int row, int col){
 		return this.boardArray[row][col];
 	}
+
+	public void setPiece(int row, int col, Piece p){
+		this.boardArray[row][col] = p;
+	}
 	//counts the number of red pieces on the board
 	public int countRed(){
 		int count = 0;

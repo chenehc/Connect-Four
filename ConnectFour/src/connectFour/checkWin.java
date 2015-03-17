@@ -8,19 +8,21 @@ public class checkWin {
 
 	//displays a game drawn message when the game is in draw state
 	private static void displayDraw(Board b){
-		JOptionPane.showMessageDialog(b, "Game Draw", "Game Drawn", JOptionPane.PLAIN_MESSAGE);
 		b.changeTitle("Connect Four - Game Drawn");
+		JOptionPane.showMessageDialog(b, "Game Draw", "Game Drawn", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	//displays a message with the winner
 	private static void displayWinner(Piece player, Board b){
-		if (player == Piece.RED){
-			JOptionPane.showMessageDialog(b, "Red wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
+		if (player == Piece.RED
 			b.changeTitle("Connect Four - Red Wins");
+			JOptionPane.showMessageDialog(b, "Red wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
+			
 		}else{
-			JOptionPane.showMessageDialog(b, "Blue wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
 			b.changeTitle("Connect Four - Blue Wins");
+			JOptionPane.showMessageDialog(b, "Blue wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
 		}
+
 		Board.endGame();
 	}
 

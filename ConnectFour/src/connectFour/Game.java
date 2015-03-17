@@ -66,26 +66,56 @@ public class Game {
 	//starts the game
 	public static void start(Board c){
 		Board.endGame = false;
+		moveCount = 0;
 		findFirst((JFrame) c);
 		displayFirst(c);
 	}
 
 	public static void pause(BoardArray brd) throws FileNotFoundException{
-		PrintWriter out = new PrintWriter(new File("save.txt"));
+		PrintWriter out = new PrintWriter(new File("save/save.txt"));
+		String temp;
+		if (currentPlayer == Piece.RED) temp = "RED";
+		else if (currentPlayer == Piece.BLUE) temp = "BLUE"; 
+		out.println(temp);
 		for (int row = 0; row<brd.getRow(); row++){
 			for (int col = 0; col<brd.getCol(); col++){
 				if (row == brd.getRow()-1){
 					out.print("\n");
 				}
-					out.print(brd.getPiece(row, col) + ",");
+					switch (brd.getPiece(row, col)){
+						case RED: out.print("RED,");
+						case BLUE: out.print("BLUE,");
+						case BLANK: out.print("BLANK,");
+					}
 			}
 		}
-		
+		JOptionPane.showMessageDialog(b, "Game saved");
 		out.close();
 	}
 
 	public static void resume(BoardArray brd) throws FileNotFoundException{
-		Scanner in = new Scanner(new File("save.txt"));
+		Scanner in = new Scanner(new File("save/save.txt"));
+		String pl = in.nextLine();
+		in.useDelimiter(",");
+		int row = 0;
+		int col = 0;
+		String [] temp;
+		while(in.hasNext()){
+			if (in.next() == "RED") brd.setPiece(row, col, Piece.RED);
+			else if (in.next() == "BLUE") brd.setPiece(row, col, Piece.BLUE);
+			else if (in.next() == "BLANK") brd.setPiece(row, col, Piece.BLANK);
+
+			if (row == 6){
+				col++;
+				row = 0;
+			}
+			row++;
+		}
+
+		if (pl.equals("RED") currentPlayer = Piece.RED;
+		else if (pl.equals("BLUE")) currentPlayer = Piece.BLUE; 
+
+		JOptionPane.showMessageDialog(b, "Game resumed.");
 		in.close();
 	}
 }

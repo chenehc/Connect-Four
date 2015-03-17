@@ -154,6 +154,7 @@ class Board extends JFrame implements ActionListener{
 	}
 	
 	public static void endGame(){
+		setTitle("Connect Four - Game Ended");
 		endGame=true;
 	}
 
