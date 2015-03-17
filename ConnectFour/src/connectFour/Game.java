@@ -65,4 +65,22 @@ public class Game {
 		displayFirst(c);
 	}
 
+	public static void pause(BoardArray brd){
+		PrintWriter out = new PrintWriter(new File("save"));
+		for (int row = 0; row<brd.getRow(); row++){
+			for (int col = 0; col<brd.getCol(); col++){
+				if (row == brd.getRow()-1){
+					out.print("\n");
+				}
+					out.print(brd.getPiece() + ",");
+			}
+		}
+		
+		out.close();
+	}
+
+	public static void resume(BoardArray brd){
+		Scanner in = new Scanner(new File("save"));
+		in.close();
+	}
 }
