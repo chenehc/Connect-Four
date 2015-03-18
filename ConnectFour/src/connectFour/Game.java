@@ -25,10 +25,10 @@ public class Game {
         if (illegalMove) brd.removePiece(col-1);
         if (currentPlayer == Piece.BLUE){
         	currentPlayer = Piece.RED;
-        	c.changeTitle("Connect Four - Red's Turn - Game in Progress");
+        	if (!Board.endGame) c.changeTitle("Connect Four - Red's Turn - Game in Progress");
         }else{
         	currentPlayer = Piece.BLUE;
-        	c.changeTitle("Connect Four - Blue's Turn - Game in Progress");
+        	if (!Board.endGame) c.changeTitle("Connect Four - Blue's Turn - Game in Progress");
         }
         c.repaint();
 	}
