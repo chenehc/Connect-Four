@@ -70,21 +70,13 @@ public class Game {
 		findFirst((JFrame) c);
 		displayFirst(c);
 	}
-	
-	//saves the game to a file, only one save state is allowed
-	//save is permanent until overwritten with another "save"
+
 	public static void save(BoardArray brd, Board b) throws FileNotFoundException{
 		PrintWriter out = new PrintWriter(new File("save/save.txt"));
 		String temp = "";
-		//first line stores current player
 		if (currentPlayer == Piece.RED) temp = "RED";
 		else if (currentPlayer == Piece.BLUE) temp = "BLUE"; 
 		out.println(temp);
-		
-		//second line stores movecount
-		out.println(moveCount);
-		
-		//second line stores the game pieces
 		for (int row = 0; row<brd.getRow(); row++){
 			for (int col = 0; col<brd.getCol(); col++){
 				
@@ -99,23 +91,16 @@ public class Game {
 		out.close();
 	}
 
-	//resumes the game from the permanent save
 	public static void resume(BoardArray brd, Board b) throws FileNotFoundException{
 		Scanner in = new Scanner(new File("save/save.txt"));
-		in.useDelimiter(",");
-		
-		//reads the first player
 		String pl = in.nextLine();
-		int movCount = Integer.parseInt(in.nextLine());
-		moveCount = movCount;
-		
+		in.useDelimiter(",");
 		int row = 0;
 		int col = 0;
-		
-		//reads the second line for how the board pieces are setup
-		while(in.hasNext()){
+//		String [] temp;
+		while(in.hasNext() && col <=6 && row <=5){
 			String t = in.next();
-//			System.out.println(t);
+			System.out.println(t);
 			if (t.equals("RED")) brd.setPiece(row, col, Piece.RED); 
 			else if (t.equals("BLUE")) brd.setPiece(row, col, Piece.BLUE);
 			else if (t.equals("EMPTY")) brd.setPiece(row, col, Piece.EMPTY);
@@ -123,12 +108,10 @@ public class Game {
 			if (col == 6){
 				row ++;
 				col = 0;
-				continue;
 			}
 			col++;
 		}
-		
-		//sets current player
+
 		if (pl.equals("RED")) currentPlayer = Piece.RED;
 		else if (pl.equals("BLUE")) currentPlayer = Piece.BLUE; 
 		

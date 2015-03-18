@@ -81,9 +81,6 @@ public class Game {
 		else if (currentPlayer == Piece.BLUE) temp = "BLUE"; 
 		out.println(temp);
 		
-		//second line stores movecount
-		out.println(moveCount);
-		
 		//second line stores the game pieces
 		for (int row = 0; row<brd.getRow(); row++){
 			for (int col = 0; col<brd.getCol(); col++){
@@ -106,8 +103,6 @@ public class Game {
 		
 		//reads the first player
 		String pl = in.nextLine();
-		int movCount = Integer.parseInt(in.nextLine());
-		moveCount = movCount;
 		
 		int row = 0;
 		int col = 0;

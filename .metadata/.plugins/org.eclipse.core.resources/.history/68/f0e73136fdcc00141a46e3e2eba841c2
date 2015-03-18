@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -155,6 +154,7 @@ class Board extends JFrame implements ActionListener{
 	}
 	
 	public static void endGame(){
+		setTitle("Connect Four - Game Ended");
 		endGame=true;
 	}
 
@@ -195,18 +195,9 @@ class Board extends JFrame implements ActionListener{
 			displayEndState(this);
 			setTitle("Connect Four - Game Ended");
 		}else if (e.getSource() == storeGameBtn){
-			try {
-				Game.save(brd, this);
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			}
+			
 		}else if (e.getSource() == loadGameBtn){
-			try {
-				Game.resume(brd, this);
-				repaint();
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			}
+			
 		}
 	}
 }
