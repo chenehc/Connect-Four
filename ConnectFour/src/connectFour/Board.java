@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  * 
  *****************************************************************************************************/
 
-class Board extends JFrame implements ActionListener{
+public class Board extends JFrame implements ActionListener{
 	private static final int COLUMN = 7;
 	private static final int ROW = 6;
 	private JButton col1, col2, col3, col4, col5, col6, col7;
@@ -27,94 +27,248 @@ class Board extends JFrame implements ActionListener{
 	private JPanel topPanel, bottomPanel, leftPanel;
 	private JButton blueTurn, redTurn;
 	private String space = "                ";
+	private String mode;
 	
 	public static boolean endGame = false;
 	public BoardArray brd;
 	
 	//Instantiates the Board object
-	public Board(){
+	public Board(String mode){
+		this.mode = mode;
 		setTitle ("Connect Four");
-		buildBoardGUI();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		if (mode.equals("player")) build2PlayerBoard();
+		else if (mode.equals("AI")) buildAIBoard();
+		else if (mode.equals("preset")) buildPresetBoard();
 	}
 	
-	//builds the board components, being panel, buttons
-	private void buildBoardGUI(){
+	public String getMode(){
+		return mode;
+	}
+	//builds the board for a 2 player game
+	private void build2PlayerBoard(){
 		topPanel = new JPanel();
 		bottomPanel = new JPanel();
 		leftPanel = new JPanel();
-	
+
 		setSize(1024, 700);
-		
+
+		//set up the buttons
 		col1 = new JButton("V");
 		col1.addActionListener(this);
 		topPanel.add(col1);
 		JLabel spaceLbl = new JLabel(space);
 		topPanel.add(spaceLbl);
-		
+
 		col2 = new JButton("V");
 		col2.addActionListener(this);
 		topPanel.add(col2);
 		spaceLbl = new JLabel(space);
 		topPanel.add(spaceLbl);
-		
+
 		col3 = new JButton("V");
 		col3.addActionListener(this);
 		topPanel.add(col3);
 		spaceLbl = new JLabel(space);
 		topPanel.add(spaceLbl);
-		
+
 		col4 = new JButton("V");
 		col4.addActionListener(this);
 		topPanel.add(col4);
 		spaceLbl = new JLabel(space);
 		topPanel.add(spaceLbl);
-		
+
 		col5 = new JButton("V");
 		col5.addActionListener(this);
 		topPanel.add(col5);
 		spaceLbl = new JLabel(space);
 		topPanel.add(spaceLbl);
-		
+
 		col6 = new JButton("V");
 		col6.addActionListener(this);
 		topPanel.add(col6);
 		spaceLbl = new JLabel(space);
 		topPanel.add(spaceLbl);
-		
+
 		col7 = new JButton("V");
 		col7.addActionListener(this);
 		topPanel.add(col7);
-		
+
 		newGameBtn = new JButton("New Game");
 		newGameBtn.addActionListener(this);
 		bottomPanel.add(newGameBtn);
-		
-		blueTurn = new JButton("Blue");
-		blueTurn.addActionListener(this);
-		bottomPanel.add(blueTurn);
-		
-		redTurn = new JButton("Red");
-		redTurn.addActionListener(this);
-		bottomPanel.add(redTurn);
-		
-		endStateBtn = new JButton("End State");
-		endStateBtn.addActionListener(this);
-		bottomPanel.add(endStateBtn);
-		
+
 		storeGameBtn = new JButton("Save");
 		storeGameBtn.addActionListener(this);
 		bottomPanel.add(storeGameBtn);
-		
+
 		loadGameBtn = new JButton("Load");
 		loadGameBtn.addActionListener(this);
 		bottomPanel.add(loadGameBtn);
+
+		//make an empty board;
 		brd = new BoardArray(ROW,COLUMN);
-		
+
+		//add the components to the frame
 		add(bottomPanel, BorderLayout.SOUTH);
 		add(leftPanel,BorderLayout.WEST);
 		add(topPanel, BorderLayout.NORTH);
-		
+
 	}
+	
+	//builds the board components for playing against AI
+	private void buildAIBoard(){
+		topPanel = new JPanel();
+		bottomPanel = new JPanel();
+		leftPanel = new JPanel();
+
+		setSize(1024, 700);
+
+		//set up the buttons
+		col1 = new JButton("V");
+		col1.addActionListener(this);
+		topPanel.add(col1);
+		JLabel spaceLbl = new JLabel(space);
+		topPanel.add(spaceLbl);
+
+		col2 = new JButton("V");
+		col2.addActionListener(this);
+		topPanel.add(col2);
+		spaceLbl = new JLabel(space);
+		topPanel.add(spaceLbl);
+
+		col3 = new JButton("V");
+		col3.addActionListener(this);
+		topPanel.add(col3);
+		spaceLbl = new JLabel(space);
+		topPanel.add(spaceLbl);
+
+		col4 = new JButton("V");
+		col4.addActionListener(this);
+		topPanel.add(col4);
+		spaceLbl = new JLabel(space);
+		topPanel.add(spaceLbl);
+
+		col5 = new JButton("V");
+		col5.addActionListener(this);
+		topPanel.add(col5);
+		spaceLbl = new JLabel(space);
+		topPanel.add(spaceLbl);
+
+		col6 = new JButton("V");
+		col6.addActionListener(this);
+		topPanel.add(col6);
+		spaceLbl = new JLabel(space);
+		topPanel.add(spaceLbl);
+
+		col7 = new JButton("V");
+		col7.addActionListener(this);
+		topPanel.add(col7);
+
+		newGameBtn = new JButton("New Game");
+		newGameBtn.addActionListener(this);
+		bottomPanel.add(newGameBtn);
+
+		storeGameBtn = new JButton("Save");
+		storeGameBtn.addActionListener(this);
+		bottomPanel.add(storeGameBtn);
+
+		loadGameBtn = new JButton("Load");
+		loadGameBtn.addActionListener(this);
+		bottomPanel.add(loadGameBtn);
+
+		//make an empty board;
+		brd = new BoardArray(ROW,COLUMN);
+		
+		//add the components to the frame
+		add(bottomPanel, BorderLayout.SOUTH);
+		add(leftPanel,BorderLayout.WEST);
+		add(topPanel, BorderLayout.NORTH);
+	}
+	
+	//builds the board for handicapped game (pregame state)
+		private void buildPresetBoard(){
+			topPanel = new JPanel();
+			bottomPanel = new JPanel();
+			leftPanel = new JPanel();
+		
+			setSize(1024, 700);
+			
+			//set up the buttons
+			col1 = new JButton("V");
+			col1.addActionListener(this);
+			topPanel.add(col1);
+			JLabel spaceLbl = new JLabel(space);
+			topPanel.add(spaceLbl);
+			
+			col2 = new JButton("V");
+			col2.addActionListener(this);
+			topPanel.add(col2);
+			spaceLbl = new JLabel(space);
+			topPanel.add(spaceLbl);
+			
+			col3 = new JButton("V");
+			col3.addActionListener(this);
+			topPanel.add(col3);
+			spaceLbl = new JLabel(space);
+			topPanel.add(spaceLbl);
+			
+			col4 = new JButton("V");
+			col4.addActionListener(this);
+			topPanel.add(col4);
+			spaceLbl = new JLabel(space);
+			topPanel.add(spaceLbl);
+			
+			col5 = new JButton("V");
+			col5.addActionListener(this);
+			topPanel.add(col5);
+			spaceLbl = new JLabel(space);
+			topPanel.add(spaceLbl);
+			
+			col6 = new JButton("V");
+			col6.addActionListener(this);
+			topPanel.add(col6);
+			spaceLbl = new JLabel(space);
+			topPanel.add(spaceLbl);
+			
+			col7 = new JButton("V");
+			col7.addActionListener(this);
+			topPanel.add(col7);
+			
+			newGameBtn = new JButton("New Game");
+			newGameBtn.addActionListener(this);
+			bottomPanel.add(newGameBtn);
+			
+			blueTurn = new JButton("Blue");
+			blueTurn.addActionListener(this);
+			bottomPanel.add(blueTurn);
+			
+			redTurn = new JButton("Red");
+			redTurn.addActionListener(this);
+			bottomPanel.add(redTurn);
+			
+			endStateBtn = new JButton("End State");
+			endStateBtn.addActionListener(this);
+			bottomPanel.add(endStateBtn);
+			
+			storeGameBtn = new JButton("Save");
+			storeGameBtn.addActionListener(this);
+			bottomPanel.add(storeGameBtn);
+			
+			loadGameBtn = new JButton("Load");
+			loadGameBtn.addActionListener(this);
+			bottomPanel.add(loadGameBtn);
+			
+			//make an empty board;
+			brd = new BoardArray(ROW,COLUMN);
+			
+			//add the components to the frame
+			add(bottomPanel, BorderLayout.SOUTH);
+			add(leftPanel,BorderLayout.WEST);
+			add(topPanel, BorderLayout.NORTH);
+			
+		}
 	
 	public void changeTitle(String s){
 		setTitle(s);
@@ -180,16 +334,20 @@ class Board extends JFrame implements ActionListener{
 		}else if (e.getSource() == col7){
 			Game.addDisk(7, this, brd);
 		}else if(e.getSource() == newGameBtn){
+			//start a new game
 			brd.newGame();
 			Game.start(this);
 			repaint();
 		}else if (e.getSource() == redTurn){
+			//change current player and change title
 			Game.currentPlayer = Piece.RED;
 			if (!endGame) setTitle("Connect Four - Red's Turn - Game in Progress");
 		}else if (e.getSource() == blueTurn){
+			//change current player and change title
 			Game.currentPlayer = Piece.BLUE;
 			if (!endGame) setTitle("Connect Four - Blue's Turn - Game in Progress");
 		}else if (e.getSource() == endStateBtn){
+			//end the game and check the board
 			endGame = true;
 			checkWin.checkState(brd, this);
 			displayEndState(this);
@@ -197,12 +355,14 @@ class Board extends JFrame implements ActionListener{
 		}else if (e.getSource() == storeGameBtn){
 			try {
 				Game.save(brd, this);
+				//TODO add mode to the save file
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
 		}else if (e.getSource() == loadGameBtn){
 			try {
 				Game.resume(brd, this);
+				//TODO add mode to read file
 				repaint();
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();

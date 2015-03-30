@@ -1,6 +1,5 @@
 package connectFour;
 
-import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -18,14 +17,20 @@ public class Game {
 	
 	//add player piece to the board
 	public static void addDisk(int col, Board c, BoardArray brd){
+		//no move if game ended
 		if (Board.endGame) return;
+		//if no player is chosen, display error
 		if (currentPlayer != Piece.BLUE && currentPlayer != Piece.RED) displayStartError(c);
-        brd.addPiece(col-1);    
+        //add the current player piece to the board
+		brd.addPiece(col-1);   
+		//check if the move is valid
         checkWin.checkMove(brd, c);
+        //if the move is not valid, remove the piece added and display error
         if (illegalMove) {
         	brd.removePiece(col-1);
         	displayIllegalMove(c);
         }else{
+        	//in turn player changing
         	if (currentPlayer == Piece.BLUE){
         		currentPlayer = Piece.RED;
         		if (!Board.endGame) c.changeTitle("Connect Four - Red's Turn - Game in Progress");
@@ -38,27 +43,35 @@ public class Game {
 	}
 	
 	//determines who goes first
-	public static void findFirst(JFrame f){
+	public static void findFirst(Board b){
 		Random rng = new Random();
 		int randomInt = rng.nextInt(100);
 		//if the number generated is 0<=x<50, blue is first, else red is first
 		if (randomInt < 50){
 			firstPlayer = Piece.BLUE;
 			currentPlayer = Piece.BLUE;
-			f.setTitle("Connect Four - Blue's Turn - Game in Progress");
+			b.setTitle("Connect Four - Blue's Turn - Game in Progress");
 		}else{
 			firstPlayer = Piece.RED;
 			currentPlayer = Piece.RED;
-			f.setTitle("Connect Four - Red's Turn - Game in Progress");
+			b.setTitle("Connect Four - Red's Turn - Game in Progress");
 		}
 	}
 
 	//displays the first player
 	private static void displayFirst(Board b){
-		if (Game.currentPlayer == Piece.RED){
-			JOptionPane.showMessageDialog(b, "Red goes first", "First Player", JOptionPane.PLAIN_MESSAGE);
+		if (b.getMode().equals("AI")){
+			if (Game.firstPlayer == Piece.RED){
+				JOptionPane.showMessageDialog(b, "AI goes first", "First Player", JOptionPane.PLAIN_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(b, "You go first", "First Player", JOptionPane.PLAIN_MESSAGE);
+			}
 		}else{
-			JOptionPane.showMessageDialog(b, "Blue goes first", "First Player", JOptionPane.PLAIN_MESSAGE);
+			if (Game.currentPlayer == Piece.RED){
+				JOptionPane.showMessageDialog(b, "Red goes first", "First Player", JOptionPane.PLAIN_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(b, "Blue goes first", "First Player", JOptionPane.PLAIN_MESSAGE);
+			}
 		}
 	}
 
@@ -67,12 +80,15 @@ public class Game {
 		JOptionPane.showMessageDialog(b, "Press 'New Game' to start the game");
 	}
 	
-	//starts the game
-	public static void start(Board c){
+	//starts a 2 player game
+	public static void start(Board b){
 		Board.endGame = false;
 		moveCount = 0;
-		findFirst((JFrame) c);
-		displayFirst(c);
+		findFirst(b);
+		if (b.getMode().equals("AI")){
+			//TODO start an AI game
+		}
+		displayFirst(b);
 	}
 	
 	//saves the game to a file, only one save state is allowed

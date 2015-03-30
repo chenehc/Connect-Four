@@ -66,6 +66,7 @@ public class BoardArray {
 	//add the current player piece to the board
 	public void addPiece(int col){
 		int row;
+		//counts to the row from which a piece can be placed, row = 0 being the top row
 		for (row=0; row<ROW; row++)
             if (!isEmpty(row, col)) break;
 		if (row>0){
@@ -79,6 +80,7 @@ public class BoardArray {
 	//removes the player piece in a column
 	public void removePiece(int col){
 		int row;
+		//similar to add, except in reverse
 		for (row=0; row<ROW; row++)
             if (!isEmpty(row, col)) break;
 		if (row>0) {

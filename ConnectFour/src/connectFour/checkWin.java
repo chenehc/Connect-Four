@@ -1,7 +1,5 @@
 package connectFour;
 
-import java.awt.Component;
-
 import javax.swing.JOptionPane;
 
 public class checkWin {
@@ -103,5 +101,6 @@ public class checkWin {
 		if (Game.moveCount == 42){
 			displayDraw(b);
 		}
+		
 	}
 }
