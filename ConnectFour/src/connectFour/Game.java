@@ -22,13 +22,17 @@ public class Game {
 		if (currentPlayer != Piece.BLUE && currentPlayer != Piece.RED) displayStartError(c);
         brd.addPiece(col-1);    
         checkWin.checkMove(brd, c);
-        if (illegalMove) brd.removePiece(col-1);
-        if (currentPlayer == Piece.BLUE){
-        	currentPlayer = Piece.RED;
-        	if (!Board.endGame) c.changeTitle("Connect Four - Red's Turn - Game in Progress");
+        if (illegalMove) {
+        	brd.removePiece(col-1);
+        	displayIllegalMove(c);
         }else{
-        	currentPlayer = Piece.BLUE;
-        	if (!Board.endGame) c.changeTitle("Connect Four - Blue's Turn - Game in Progress");
+        	if (currentPlayer == Piece.BLUE){
+        		currentPlayer = Piece.RED;
+        		if (!Board.endGame) c.changeTitle("Connect Four - Red's Turn - Game in Progress");
+        	}else{
+        		currentPlayer = Piece.BLUE;
+        		if (!Board.endGame) c.changeTitle("Connect Four - Blue's Turn - Game in Progress");
+        	}
         }
         c.repaint();
 	}
@@ -134,5 +138,10 @@ public class Game {
 		
 		JOptionPane.showMessageDialog(b, "Game resumed.");
 		in.close();
+	}
+	
+	//displays an error when making illegal moves
+	private static void displayIllegalMove(Board b){
+		JOptionPane.showMessageDialog(b, "Illegal Move, try again");
 	}
 }

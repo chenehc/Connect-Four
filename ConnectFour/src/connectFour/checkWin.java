@@ -35,12 +35,6 @@ public class checkWin {
 		}
 	}
 	
-	
-	// //displays an error when making illegal moves
-	// public static void displayIllegalMove(Board b){
-	// 	JOptionPane.showMessageDialog(b, "Illegal Move, try again");
-	// 	Game.illegalMove=true;
-	// }
 
 	//checks piece imbalance when the end game is pressed
 	public static void checkState(BoardArray brd, Board b){

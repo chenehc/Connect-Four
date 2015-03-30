@@ -68,10 +68,12 @@ public class BoardArray {
 		int row;
 		for (row=0; row<ROW; row++)
             if (!isEmpty(row, col)) break;
-		if (row>0) {
-           boardArray[--row][col] = Game.currentPlayer;
+		if (row>0){
+			boardArray[--row][col] = Game.currentPlayer;
+			Game.moveCount++;
+		}else{
+			Game.illegalMove = true;
 		}
-		Game.moveCount++;
 	}
 	
 	//removes the player piece in a column
@@ -92,4 +94,5 @@ public class BoardArray {
             for (int col=0; col<COLUMN; col++)
                     boardArray[row][col]= Piece.EMPTY;
 	}
+	
 }
