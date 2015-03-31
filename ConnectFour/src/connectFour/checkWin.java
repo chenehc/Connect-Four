@@ -3,15 +3,15 @@ package connectFour;
 import javax.swing.JOptionPane;
 
 public class checkWin {
-
+	
 	//displays a game drawn message when the game is in draw state
-	private static void displayDraw(Board b){
-		b.changeTitle("Connect Four - Game Drawn");
-		JOptionPane.showMessageDialog(b, "Game Draw", "Game Drawn", JOptionPane.PLAIN_MESSAGE);
-	}
-
+		private static void displayDraw(JOptionPane b){
+//			b.changeTitle("Connect Four - Game Drawn");
+			JOptionPane.showMessageDialog(b, "Game Draw", "Game Drawn", JOptionPane.PLAIN_MESSAGE);
+		}
+		
 	//displays a message with the winner
-	private static void displayWinner(Piece player, Board b){
+	public static void displayWinner(Piece player, Board b){
 		if (player == Piece.RED){
 			b.changeTitle("Connect Four - Red Wins");
 			JOptionPane.showMessageDialog(b, "Red wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
@@ -25,7 +25,7 @@ public class checkWin {
 	}
 
 	//displays error resulted from imbalance of player pieces
-	private static void displayError(Piece player, Board b){
+	private static void displayError(Piece player, JOptionPane b){
 		if (player == Piece.RED){
 			JOptionPane.showMessageDialog(b, "Uneven amount of game pieces, too many red pieces", "Error.", JOptionPane.ERROR_MESSAGE);
 		}else{
@@ -37,14 +37,18 @@ public class checkWin {
 	//checks piece imbalance when the end game is pressed
 	public static void checkState(BoardArray brd, Board b){
 			if (Game.firstPlayer == Piece.BLUE && brd.countBlue() > brd.countRed() + 1){
-				displayError(Piece.BLUE, b);
+				displayError(Piece.BLUE, new JOptionPane());
 			}else if (Game.firstPlayer == Piece.RED && brd.countBlue() + 1 < brd.countRed()){
-				displayError(Piece.RED, b);
+				displayError(Piece.RED, new JOptionPane());
 			}
 	}
 	
 	//checks whether there is 4 in a row anywhere
-	public static void checkMove(BoardArray brd, Board b){
+	public static Piece checkMove(BoardArray brd){
+		
+		if (Game.isTie){
+			displayDraw(new JOptionPane());
+		}
 		//checks the row 
 		for (int row=0; row<brd.getRow(); row++) {
 			for (int col=0; col<brd.getCol()-3; col++) {
@@ -53,7 +57,8 @@ public class checkWin {
 						&& current == brd.getPiece(row,col+1) 
 						&& current == brd.getPiece(row, col+2) 
 						&& current == brd.getPiece(row, col+3)) {
-					displayWinner(current, b);
+//					displayWinner(current, b);
+					return current;
 				}
 			}
 		}
@@ -66,7 +71,8 @@ public class checkWin {
 						&& current == brd.getPiece(row+1,col) 
 						&& current == brd.getPiece(row+2,col) 
 						&& current == brd.getPiece(row+3,col)){
-					displayWinner(current, b);
+//					displayWinner(current, b);
+					return current;
 				}
 			}
 		}
@@ -80,7 +86,8 @@ public class checkWin {
 						&& current == brd.getPiece(row+1,col+1) 
 						&& current == brd.getPiece(row+2,col+2)  
 						&& current == brd.getPiece(row+3,col+3) ){
-					displayWinner(current, b);
+//					displayWinner(current, b);
+					return current;
 				}
 			}
 		}
@@ -93,14 +100,18 @@ public class checkWin {
 						&& current == brd.getPiece(row-1,col+1) 
 						&& current == brd.getPiece(row-2,col+2)  
 						&& current == brd.getPiece(row-3,col+3)){
-					displayWinner(current, b);
+//					displayWinner(current, b);
+					return current;
 				}
 			}
 		}
 		
-		if (Game.moveCount == 42){
-			displayDraw(b);
-		}
+		return Piece.EMPTY;
 		
+	}
+	
+	//unit testing
+	public static void main(String args[]){
+		displayDraw(new JOptionPane());
 	}
 }

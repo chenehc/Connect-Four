@@ -23,14 +23,14 @@ public class Board extends JFrame implements ActionListener{
 	private static final int COLUMN = 7;
 	private static final int ROW = 6;
 	private JButton col1, col2, col3, col4, col5, col6, col7;
-	private JButton newGameBtn, endStateBtn, storeGameBtn, loadGameBtn;
+	private JButton newGameBtn, endStateBtn, storeGameBtn, loadGameBtn, menuBtn;
 	private JPanel topPanel, bottomPanel, leftPanel;
 	private JButton blueTurn, redTurn;
 	private String space = "                ";
 	private String mode;
 	
 	public static boolean endGame = false;
-	public BoardArray brd;
+	private BoardArray brd;
 	
 	//Instantiates the Board object
 	public Board(String mode){
@@ -46,6 +46,11 @@ public class Board extends JFrame implements ActionListener{
 	public String getMode(){
 		return mode;
 	}
+	
+	public BoardArray getBoardArray(){
+		return brd;
+	}
+	
 	//builds the board for a 2 player game
 	private void build2PlayerBoard(){
 		topPanel = new JPanel();
@@ -53,7 +58,7 @@ public class Board extends JFrame implements ActionListener{
 		leftPanel = new JPanel();
 
 		setSize(1024, 700);
-
+		
 		//set up the buttons
 		col1 = new JButton("V");
 		col1.addActionListener(this);
@@ -94,7 +99,7 @@ public class Board extends JFrame implements ActionListener{
 		col7 = new JButton("V");
 		col7.addActionListener(this);
 		topPanel.add(col7);
-
+		
 		newGameBtn = new JButton("New Game");
 		newGameBtn.addActionListener(this);
 		bottomPanel.add(newGameBtn);
@@ -106,6 +111,10 @@ public class Board extends JFrame implements ActionListener{
 		loadGameBtn = new JButton("Load");
 		loadGameBtn.addActionListener(this);
 		bottomPanel.add(loadGameBtn);
+		
+		menuBtn =  new JButton("Menu");
+		menuBtn.addActionListener(this);
+		bottomPanel.add(menuBtn);
 
 		//make an empty board;
 		brd = new BoardArray(ROW,COLUMN);
@@ -114,7 +123,10 @@ public class Board extends JFrame implements ActionListener{
 		add(bottomPanel, BorderLayout.SOUTH);
 		add(leftPanel,BorderLayout.WEST);
 		add(topPanel, BorderLayout.NORTH);
-
+		
+		brd.newGame();
+		Game.start(this);
+		repaint();
 	}
 	
 	//builds the board components for playing against AI
@@ -165,7 +177,7 @@ public class Board extends JFrame implements ActionListener{
 		col7 = new JButton("V");
 		col7.addActionListener(this);
 		topPanel.add(col7);
-
+		
 		newGameBtn = new JButton("New Game");
 		newGameBtn.addActionListener(this);
 		bottomPanel.add(newGameBtn);
@@ -177,6 +189,10 @@ public class Board extends JFrame implements ActionListener{
 		loadGameBtn = new JButton("Load");
 		loadGameBtn.addActionListener(this);
 		bottomPanel.add(loadGameBtn);
+		
+		menuBtn =  new JButton("Menu");
+		menuBtn.addActionListener(this);
+		bottomPanel.add(menuBtn);
 
 		//make an empty board;
 		brd = new BoardArray(ROW,COLUMN);
@@ -185,6 +201,10 @@ public class Board extends JFrame implements ActionListener{
 		add(bottomPanel, BorderLayout.SOUTH);
 		add(leftPanel,BorderLayout.WEST);
 		add(topPanel, BorderLayout.NORTH);
+		
+		brd.newGame();
+		Game.start(this);
+		repaint();
 	}
 	
 	//builds the board for handicapped game (pregame state)
@@ -236,6 +256,10 @@ public class Board extends JFrame implements ActionListener{
 			col7.addActionListener(this);
 			topPanel.add(col7);
 			
+			menuBtn =  new JButton("Menu");
+			menuBtn.addActionListener(this);
+			bottomPanel.add(menuBtn);
+			
 			newGameBtn = new JButton("New Game");
 			newGameBtn.addActionListener(this);
 			bottomPanel.add(newGameBtn);
@@ -259,6 +283,10 @@ public class Board extends JFrame implements ActionListener{
 			loadGameBtn = new JButton("Load");
 			loadGameBtn.addActionListener(this);
 			bottomPanel.add(loadGameBtn);
+
+			menuBtn =  new JButton("Menu");
+			menuBtn.addActionListener(this);
+			bottomPanel.add(menuBtn);
 			
 			//make an empty board;
 			brd = new BoardArray(ROW,COLUMN);
@@ -268,6 +296,9 @@ public class Board extends JFrame implements ActionListener{
 			add(leftPanel,BorderLayout.WEST);
 			add(topPanel, BorderLayout.NORTH);
 			
+			brd.newGame();
+			Game.start(this);
+			repaint();
 		}
 	
 	public void changeTitle(String s){
@@ -333,6 +364,12 @@ public class Board extends JFrame implements ActionListener{
 			Game.addDisk(6, this, brd);
 		}else if (e.getSource() == col7){
 			Game.addDisk(7, this, brd);
+		}else if(e.getSource() == menuBtn){
+			setVisible(false);
+			dispose();
+			Menu menu = new Menu();
+			menu.setVisible(true);
+			menu.setLocationRelativeTo(null);
 		}else if(e.getSource() == newGameBtn){
 			//start a new game
 			brd.newGame();

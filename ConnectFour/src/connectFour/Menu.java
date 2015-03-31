@@ -15,6 +15,7 @@ public class Menu extends JFrame implements ActionListener{
 		buildMenu();
 	}
 	
+	//builds the components inside the frame
 	private void buildMenu(){
 		setSize(400,600);
 		vsPlayer = new JButton ("2 Player");
@@ -31,6 +32,7 @@ public class Menu extends JFrame implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e){
+		//opens a different board based on the option chosen
 		if (e.getSource() == vsPlayer){
 			setVisible(false);
 			dispose();
@@ -38,10 +40,14 @@ public class Menu extends JFrame implements ActionListener{
 			brd.setVisible(true);
 			brd.setLocationRelativeTo(null);
 		}else if (e.getSource() == vsAI){
+			setVisible(false);
+			dispose();
 			Board brd = new Board("AI");
 			brd.setVisible(true);
 			brd.setLocationRelativeTo(null);
 		}else if (e.getSource() == preset){
+			setVisible(false);
+			dispose();
 			Board brd = new Board("preset");
 			brd.setVisible(true);
 			brd.setLocationRelativeTo(null);
