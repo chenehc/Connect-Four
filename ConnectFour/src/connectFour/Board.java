@@ -361,10 +361,6 @@ public class Board extends JFrame implements ActionListener{
 			repaint();
 		}
 	
-	public void changeTitle(String s){
-		setTitle(s);
-	}
-	
 	public void paint(Graphics g){
 		super.paint(g);
 		//draw rectangular frame
@@ -399,13 +395,18 @@ public class Board extends JFrame implements ActionListener{
                 }
 	}
 	
-	public static void endGame(){
+
+	public void changeTitle(String s){
+		setTitle(s);
+	}
+	
+	public void endGame(){
 		endGame=true;
 	}
 
 	//this message plays when the user presses the 'End State' button
-	public static void displayEndState(Board b){
-		JOptionPane.showMessageDialog(b, "Game Over, press 'New Game' to play again");
+	public void displayEndGame(){
+		JOptionPane.showMessageDialog(this, "Game Over, press 'New Game' to play again");
 	}
 	
 	//sets action depending on which button is pressed
@@ -447,22 +448,27 @@ public class Board extends JFrame implements ActionListener{
 			//end the game and check the board
 			endGame = true;
 			checkWin.checkState(brd, this);
-			displayEndState(this);
+			//TODO fix this next line
+//			displayEndGame(this);
 			setTitle("Connect Four - Game Ended");
 		}else if (e.getSource() == storeGameBtn){
-			try {
-				Game.save(brd, this);
-				//TODO add mode to the save file
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
+			if (endGame) displayEndGame();
+			else{
+				try {
+					Game.save(brd, this);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}else if (e.getSource() == loadGameBtn){
-			try {
-				Game.resume(brd, this);
-				//TODO add mode to read file
-				repaint();
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
+			if (checkWin.checkMove(brd) != Piece.EMPTY) displayEndGame();
+			else{
+				try {
+					Game.resume(brd, this);
+					repaint();
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

@@ -26,7 +26,7 @@ public class checkWin {
 			JOptionPane.showMessageDialog(b, "Blue wins", "Winner!", JOptionPane.PLAIN_MESSAGE);
 		}
 
-		Board.endGame();
+		b.endGame();
 	}
 
 	//displays error resulted from imbalance of player pieces
