@@ -2,7 +2,11 @@ package connectFour;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -12,11 +16,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /*****************************************************************************************************
- * This class holds the frame component of the game
- * 
- * 
+ * This class holds the Board component of the game, dealing with the actual board and updates the 
+ * frame when a change has been made to the BoardArray
  *****************************************************************************************************/
 
 public class Board extends JFrame implements ActionListener{
@@ -24,7 +28,7 @@ public class Board extends JFrame implements ActionListener{
 	private static final int ROW = 6;
 	private JButton col1, col2, col3, col4, col5, col6, col7;
 	private JButton newGameBtn, endStateBtn, storeGameBtn, loadGameBtn, menuBtn;
-	private JPanel topPanel, bottomPanel, leftPanel;
+	private JPanel topPanel, leftPanel;
 	private JButton blueTurn, redTurn;
 	private String space = "                ";
 	private String mode;
@@ -32,7 +36,7 @@ public class Board extends JFrame implements ActionListener{
 	public static boolean endGame = false;
 	private BoardArray brd;
 	
-	//Instantiates the Board object
+	//Constructor
 	public Board(String mode){
 		this.mode = mode;
 		setTitle ("Connect Four");
@@ -40,11 +44,15 @@ public class Board extends JFrame implements ActionListener{
 		setResizable(false);
 		if (mode.equals("player")) build2PlayerBoard();
 		else if (mode.equals("AI")) buildAIBoard();
-		else if (mode.equals("preset")) buildPresetBoard();
+		else if (mode.equals("setup")) buildPresetBoard();
 	}
 	
 	public String getMode(){
 		return mode;
+	}
+	
+	public void setMode(String mode){
+		this.mode = mode;
 	}
 	
 	public BoardArray getBoardArray(){
@@ -54,11 +62,22 @@ public class Board extends JFrame implements ActionListener{
 	//builds the board for a 2 player game
 	private void build2PlayerBoard(){
 		topPanel = new JPanel();
-		bottomPanel = new JPanel();
 		leftPanel = new JPanel();
-
-		setSize(1024, 700);
 		
+		JPanel center = new JPanel(){
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(1024, 678);
+            }
+        };
+        
+		JPanel buttonPanel = new JPanel(new GridLayout(7, 1));
+		JPanel east = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weighty = 1;
+        east.add(buttonPanel, gbc);
+        
 		//set up the buttons
 		col1 = new JButton("V");
 		col1.addActionListener(this);
@@ -100,29 +119,44 @@ public class Board extends JFrame implements ActionListener{
 		col7.addActionListener(this);
 		topPanel.add(col7);
 		
+		JLabel spacer = new JLabel();
+		buttonPanel.add(spacer);
+		
+		JTextField n = new JTextField();
+		n.setPreferredSize(new Dimension(30, 45));
+		n.setEditable(false);
+		buttonPanel.add(n);
+		
+		spacer = new JLabel();
+		buttonPanel.add(spacer);
+		
 		newGameBtn = new JButton("New Game");
 		newGameBtn.addActionListener(this);
-		bottomPanel.add(newGameBtn);
+		buttonPanel.add(newGameBtn);
 
 		storeGameBtn = new JButton("Save");
 		storeGameBtn.addActionListener(this);
-		bottomPanel.add(storeGameBtn);
+		buttonPanel.add(storeGameBtn);
 
 		loadGameBtn = new JButton("Load");
 		loadGameBtn.addActionListener(this);
-		bottomPanel.add(loadGameBtn);
+		buttonPanel.add(loadGameBtn);
 		
 		menuBtn =  new JButton("Menu");
 		menuBtn.addActionListener(this);
-		bottomPanel.add(menuBtn);
+		buttonPanel.add(menuBtn);
 
 		//make an empty board;
 		brd = new BoardArray(ROW,COLUMN);
 
 		//add the components to the frame
-		add(bottomPanel, BorderLayout.SOUTH);
-		add(leftPanel,BorderLayout.WEST);
-		add(topPanel, BorderLayout.NORTH);
+		add(east, BorderLayout.EAST);
+		center.add(leftPanel, BorderLayout.WEST);
+		center.add(topPanel, BorderLayout.NORTH);
+//		add(leftPanel,BorderLayout.WEST);
+//		add(topPanel, BorderLayout.NORTH);
+		add(center);
+		pack();
 		
 		brd.newGame();
 		Game.start(this);
@@ -132,10 +166,21 @@ public class Board extends JFrame implements ActionListener{
 	//builds the board components for playing against AI
 	private void buildAIBoard(){
 		topPanel = new JPanel();
-		bottomPanel = new JPanel();
 		leftPanel = new JPanel();
 
-		setSize(1024, 700);
+		JPanel center = new JPanel(){
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(1024, 678);
+            }
+        };
+        
+		JPanel buttonPanel = new JPanel(new GridLayout(5, 1));
+		JPanel east = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weighty = 1;
+        east.add(buttonPanel, gbc);
 
 		//set up the buttons
 		col1 = new JButton("V");
@@ -180,40 +225,55 @@ public class Board extends JFrame implements ActionListener{
 		
 		newGameBtn = new JButton("New Game");
 		newGameBtn.addActionListener(this);
-		bottomPanel.add(newGameBtn);
+		buttonPanel.add(newGameBtn);
 
 		storeGameBtn = new JButton("Save");
 		storeGameBtn.addActionListener(this);
-		bottomPanel.add(storeGameBtn);
+		buttonPanel.add(storeGameBtn);
 
 		loadGameBtn = new JButton("Load");
 		loadGameBtn.addActionListener(this);
-		bottomPanel.add(loadGameBtn);
+		buttonPanel.add(loadGameBtn);
 		
 		menuBtn =  new JButton("Menu");
 		menuBtn.addActionListener(this);
-		bottomPanel.add(menuBtn);
+		buttonPanel.add(menuBtn);
 
 		//make an empty board;
 		brd = new BoardArray(ROW,COLUMN);
 		
 		//add the components to the frame
-		add(bottomPanel, BorderLayout.SOUTH);
-		add(leftPanel,BorderLayout.WEST);
-		add(topPanel, BorderLayout.NORTH);
+		add(east, BorderLayout.EAST);
+		center.add(leftPanel, BorderLayout.WEST);
+		center.add(topPanel, BorderLayout.NORTH);
+//		add(leftPanel,BorderLayout.WEST);
+//		add(topPanel, BorderLayout.NORTH);
+		add(center);
+		pack();
 		
 		brd.newGame();
 		Game.start(this);
 		repaint();
 	}
 	
-	//builds the board for handicapped game (pregame state)
+	//builds the board for manual board set up
 		private void buildPresetBoard(){
 			topPanel = new JPanel();
-			bottomPanel = new JPanel();
 			leftPanel = new JPanel();
 		
-			setSize(1024, 700);
+			JPanel center = new JPanel(){
+	            @Override
+	            public Dimension getPreferredSize() {
+	                return new Dimension(1024, 678);
+	            }
+	        };
+	        
+			JPanel buttonPanel = new JPanel(new GridLayout(7, 1));
+			JPanel east = new JPanel(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+	        gbc.anchor = GridBagConstraints.NORTH;
+	        gbc.weighty = 1;
+	        east.add(buttonPanel, gbc);
 			
 			//set up the buttons
 			col1 = new JButton("V");
@@ -256,45 +316,45 @@ public class Board extends JFrame implements ActionListener{
 			col7.addActionListener(this);
 			topPanel.add(col7);
 			
-			menuBtn =  new JButton("Menu");
-			menuBtn.addActionListener(this);
-			bottomPanel.add(menuBtn);
-			
 			newGameBtn = new JButton("New Game");
 			newGameBtn.addActionListener(this);
-			bottomPanel.add(newGameBtn);
+			buttonPanel.add(newGameBtn);
 			
 			blueTurn = new JButton("Blue");
 			blueTurn.addActionListener(this);
-			bottomPanel.add(blueTurn);
+			buttonPanel.add(blueTurn);
 			
 			redTurn = new JButton("Red");
 			redTurn.addActionListener(this);
-			bottomPanel.add(redTurn);
+			buttonPanel.add(redTurn);
 			
 			endStateBtn = new JButton("End State");
 			endStateBtn.addActionListener(this);
-			bottomPanel.add(endStateBtn);
+			buttonPanel.add(endStateBtn);
 			
 			storeGameBtn = new JButton("Save");
 			storeGameBtn.addActionListener(this);
-			bottomPanel.add(storeGameBtn);
+			buttonPanel.add(storeGameBtn);
 			
 			loadGameBtn = new JButton("Load");
 			loadGameBtn.addActionListener(this);
-			bottomPanel.add(loadGameBtn);
+			buttonPanel.add(loadGameBtn);
 
 			menuBtn =  new JButton("Menu");
 			menuBtn.addActionListener(this);
-			bottomPanel.add(menuBtn);
+			buttonPanel.add(menuBtn);
 			
 			//make an empty board;
 			brd = new BoardArray(ROW,COLUMN);
 			
 			//add the components to the frame
-			add(bottomPanel, BorderLayout.SOUTH);
-			add(leftPanel,BorderLayout.WEST);
-			add(topPanel, BorderLayout.NORTH);
+			add(east, BorderLayout.EAST);
+			center.add(leftPanel, BorderLayout.WEST);
+			center.add(topPanel, BorderLayout.NORTH);
+//			add(leftPanel,BorderLayout.WEST);
+//			add(topPanel, BorderLayout.NORTH);
+			add(center);
+			pack();
 			
 			brd.newGame();
 			Game.start(this);
@@ -309,7 +369,7 @@ public class Board extends JFrame implements ActionListener{
 		super.paint(g);
 		//draw rectangular frame
 		g.setColor(Color.BLACK);
-        g.drawRect(145, 65, 100 * COLUMN + 30, 95 * ROW + 30);
+        g.drawRect(150, 75, 100 * COLUMN + 30, 95 * ROW + 30);
         
         //draw player piece holder
         g.setColor(Color.DARK_GRAY);
@@ -335,7 +395,7 @@ public class Board extends JFrame implements ActionListener{
                         if (brd.isEmpty(row, col)) g.setColor(Color.WHITE);
                         if (brd.isRed(row, col)) g.setColor(Color.RED);
                         if (brd.isBlue(row, col)) g.setColor(Color.BLUE);
-                        g.fillOval(165+100*col, 70+100*row, 90, 90);
+                        g.fillOval(175+100*col, 80+100*row, 90, 90);
                 }
 	}
 	

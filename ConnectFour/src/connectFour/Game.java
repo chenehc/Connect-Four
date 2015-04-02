@@ -9,28 +9,40 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class Game {
-	public static Piece currentPlayer, nextPlayer;
+	public static Piece currentPlayer;
 	public static Piece firstPlayer;
 	public static boolean illegalMove = false;
-	public static int moveCount = 0;
 	public static boolean isTie = false;
 	private static int best_Column;
 	
-	//adds the AI disk to the board
-	public static void addDiskAI(Board c, BoardArray brd){
-		//essentially same as addDisk, except it adds the best_column
-		if (!legalMove(best_Column, brd)) displayIllegalMove(c);
-		else{
-			brd.addPiece(best_Column, Piece.RED);
-		}
-		currentPlayer = Piece.BLUE;
-		if (checkWin.checkMove(brd) != Piece.EMPTY){
-			checkWin.displayWinner(checkWin.checkMove(brd), c);
-		}
-		c.repaint();
-	}
+//	/**
+//	 * This method adds and AI piece to the board, used in AI mode
+//	 * @param c 	Board component for display
+//	 * @param brd	BoardArray for piece manipulation
+//	 */
+//	public static void addDiskAI(int col, Board c, BoardArray brd){
+//		//no move if game ended
+//		if (Board.endGame) return;
+//		
+//		//essentially same as addDisk, except it adds the best_column
+//		if (!legalMove(best_Column, brd)) displayIllegalMove(c);
+//		else{
+//			brd.addPiece(col, Piece.RED);
+//		}
+//		currentPlayer = Piece.BLUE;
+//		//check if the game has ended, EMPTY signifies there are no winners yet, display the winning piece if the game has ended
+//		if (checkWin.checkMove(brd) != Piece.EMPTY){
+//			checkWin.displayWinner(checkWin.checkMove(brd), c);
+//		}
+//		c.repaint();
+//	}
 	
-	//add player piece to the board
+	/**
+	 * This method adds a player piece to the board, used in two player mode
+	 * @param col - The column number that is entered by the user when a column button is pressed
+	 * @param c   - Board for display
+	 * @param brd - BoardArray for board control
+	 */
 	public static void addDisk(int col, Board c, BoardArray brd){
 		//no move if game ended
 		if (Board.endGame) return;
@@ -41,16 +53,17 @@ public class Game {
 		if (!legalMove(col-1, brd)) displayIllegalMove(c);
 		else { 
 			brd.addPiece(col-1, currentPlayer);  
-			if (checkWin.checkMove(brd) != Piece.EMPTY){
-				checkWin.displayWinner(checkWin.checkMove(brd), c);
-			}
 			if (c.getMode().equals("AI") && currentPlayer == Piece.BLUE){
-//        		addDiskAI(makeAIMove(brd, c)-1, c, brd);
-				makeAIMove(brd, c);
-				addDiskAI(c, brd);
-        		return;
+        		brd.addPiece(makeAIMove(brd, c), Piece.RED);
+        		currentPlayer = Piece.BLUE;
 			}
 		}
+		
+		//check state of board, whether there is a winner
+		if (checkWin.checkMove(brd) != Piece.EMPTY){
+			checkWin.displayWinner(checkWin.checkMove(brd), c);
+		}
+		
 		if (c.getMode()!="AI"){
 			//in turn player changing
 			if (currentPlayer == Piece.BLUE){
@@ -67,10 +80,23 @@ public class Game {
         c.repaint();
 	}
 	
+	/**
+	 * This method checks if the move about to be made is valid on the board (the piece is not added past the top row)
+	 * @param col 	- The column that the user has selected
+	 * @param brd 	- BoardArray for checking the pieces on the board
+	 * @return true if the move can be made, false if the move can't be made
+	 */
 	private static boolean legalMove(int col, BoardArray brd){
 		if (brd.getPiece(0, col) != Piece.EMPTY) return false;
 		return true;
 	}
+	
+	/**
+	 * This method finds the move that the AI should make and returns the best Column
+	 * @param brd
+	 * @param b
+	 * @return
+	 */
 	//make move for AI
 	//AI is always RED and the player is always BLUE
 	private static int makeAIMove(BoardArray brd, Board b){
@@ -79,6 +105,15 @@ public class Game {
 		return best_Column;
 	}
 	
+	/**
+	 * This method finds and compares the value of each possible move,
+	 * when it finds the max value, it sets the best_Column to the column 
+	 * with best value for the AI.
+	 * @param brd
+	 * @param depth
+	 * @param player
+	 * @return the value of each possible move and whether min or max is winning
+	 */
 	private static int Value(BoardArray brd, int depth, Piece player){
 		//if the game has not ended, check which player is winning
 		if (checkWin.checkMove(brd) != Piece.EMPTY ){
@@ -127,7 +162,10 @@ public class Game {
 		}
 	}
 	
-	//determines who goes first
+	/**	
+	 * This method determines which player goes first using RNG
+	 * @param b - Board for display
+	 */
 	public static void findFirst(Board b){
 		Random rng = new Random();
 		int randomInt = rng.nextInt(100);
@@ -142,8 +180,12 @@ public class Game {
 			b.setTitle("Connect Four - Red's Turn - Game in Progress");
 		}
 	}
-
-	//displays the first player
+	
+	
+	/**
+	 * This method displays the first player
+	 * @param b - Board for display 
+	 */
 	private static void displayFirst(Board b){
 		if (b.getMode().equals("AI")){
 			if (Game.firstPlayer == Piece.RED){
@@ -160,19 +202,25 @@ public class Game {
 		}
 	}
 
-	//displays an error when inserting into a game which has not started yet
+	/**
+	 * This method displays an error when inserting into a game which has not started yet
+	 * @param b - Board for display
+	 */
 	private static void displayStartError(Board b){
 		JOptionPane.showMessageDialog(b, "Press 'New Game' to start the game");
 	}
 	
-	//starts a 2 player game
+	/**
+	 * This method starts the game 
+	 * @param b - Board for display
+	 */
 	public static void start(Board b){
 		Board.endGame = false;
-		moveCount = 0;
 		findFirst(b);
 		if (b.getMode().equals("AI") && firstPlayer == Piece.RED){
-			best_Column = 3;
-			addDiskAI(b, b.getBoardArray());
+//			best_Column = 3;
+			b.getBoardArray().addPiece(3, Piece.RED);
+			currentPlayer = Piece.BLUE;
 		}
 		displayFirst(b);
 	}
@@ -187,8 +235,8 @@ public class Game {
 		else if (currentPlayer == Piece.BLUE) temp = "BLUE"; 
 		out.println(temp);
 		
-		//second line stores movecount
-		out.println(moveCount);
+		//second line stores mode
+		out.println(b.getMode());
 		
 		//second line stores the game pieces
 		for (int row = 0; row<brd.getRow(); row++){
@@ -205,15 +253,22 @@ public class Game {
 		out.close();
 	}
 	
-	//resumes the game from the permanent save
+	/**
+	 * This method resumes the game from the permanent save
+	 * @param brd - BoardArray for write
+	 * @param b   - Board for display
+	 * @throws FileNotFoundException
+	 */
 	public static void resume(BoardArray brd, Board b) throws FileNotFoundException{
 		Scanner in = new Scanner(new File("save/save.txt"));
 		in.useDelimiter(",");
 		
 		//reads the first player
 		String pl = in.nextLine();
-		int movCount = Integer.parseInt(in.nextLine());
-		moveCount = movCount;
+		
+		//reads the mode
+		String mode = in.nextLine();
+		b.setMode(mode);
 		
 		int row = 0;
 		int col = 0;
@@ -242,7 +297,10 @@ public class Game {
 		in.close();
 	}
 	
-	//displays an error when making illegal moves
+	/**
+	 * This method is for displaying an error when making illegal moves
+	 * @param b - Board for display
+	 */
 	private static void displayIllegalMove(Board b){
 		JOptionPane.showMessageDialog(b, "Illegal Move, try again");
 	}

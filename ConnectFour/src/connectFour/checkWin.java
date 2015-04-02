@@ -2,7 +2,12 @@ package connectFour;
 
 import javax.swing.JOptionPane;
 
-public class checkWin {
+/***********************************************************************************************
+ * This class if used mainly for methods that are related to win conditions and win related
+ * display information
+ **********************************************************************************************/
+
+public class checkWin {	
 	
 	//displays a game drawn message when the game is in draw state
 		private static void displayDraw(JOptionPane b){
