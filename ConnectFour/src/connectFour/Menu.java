@@ -26,11 +26,12 @@ public class Menu extends JFrame implements ActionListener{
 		buildMenu();
 	}
 	
-	//builds the components inside the frame
+	/**
+	 * This method builds the frame components used in menu
+	 */
 	private void buildMenu(){
 		setSize(200,300);
 		JPanel pane = new JPanel(new GridLayout(3,1));
-//		pane.setLayout(new BorderLayout());
 		pane.setVisible(true);
 		
 		vsPlayer = new JButton ("2 Player");
@@ -46,11 +47,14 @@ public class Menu extends JFrame implements ActionListener{
 		setup.addActionListener(this);
 		pane.add(setup);
 		
-//		setLayout(new GridLayout (1,2,3,3));
 		add(pane, BorderLayout.CENTER);
 		
 	}
 	
+	/**
+	 * This method detects the buttons pressed and 
+	 * opens a board that corresponds to the option selected
+	 */
 	public void actionPerformed(ActionEvent e){
 		//opens a different board based on the option chosen
 		if (e.getSource() == vsPlayer){

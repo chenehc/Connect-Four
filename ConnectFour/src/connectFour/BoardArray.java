@@ -27,7 +27,6 @@ public class BoardArray {
 					sum += valueTable[row][col];
 				else if (boardArray[row][col] == Piece.RED)
 					sum -= valueTable[row][col];
-//		System.out.println("evaluation" +(base + sum));
 		return base + sum;
 	}
 	
@@ -85,16 +84,14 @@ public class BoardArray {
 		return this.COLUMN;
 	}
 	
-//	//clone this object
-//	public BoardArray clone(){
-//		BoardArray temp = new BoardArray(ROW, COLUMN);
-//		for (int row =0; row<ROW; row++){
-//			for (int col =0; col<COLUMN; col++){
-//				temp.setPiece(row, col, getPiece(row, col));
-//			}
-//		}
-//		return temp;
-//	}
+	//clone this object
+	public void clone(BoardArray from){
+		for (int row =0; row<ROW; row++){
+			for (int col =0; col<COLUMN; col++){
+				setPiece(row, col, from.getPiece(row, col));
+			}
+		}
+	}
 	
 	/**
 	 * This method finds the piece located at [row][column] 
@@ -193,4 +190,25 @@ public class BoardArray {
                     boardArray[row][col]= Piece.EMPTY;
 	}
 	
+	
+	//debug method, prints the BoardArray in console
+	private static void printBoard(BoardArray brd){
+		for (int row = 0; row<brd.getRow(); row++){
+			for (int col = 0; col<brd.getCol(); col++){
+				System.out.print(brd.getPiece(row,col) + "\t");
+			}
+			System.out.println();
+		}
+	}
+		
+	public static void main(String args[]){
+		BoardArray a = new BoardArray(6, 7);
+		a.setPiece( 1, 2, Piece.BLUE);
+		a.setPiece(2,3,Piece.RED);
+		BoardArray b = new BoardArray(6, 7);
+//		b = a.clone();
+		printBoard(a);
+		System.out.println();
+		printBoard(b);
+	}
 }
